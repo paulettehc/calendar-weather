@@ -4,15 +4,14 @@ import { useEffect, useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function DayScreen() {
-  // TEMP: hardcode location for now
   const [location, setLocation] = useState({
-    name: "Pipe Creek, TX",
-    lat: 29.65928,
-    lon: -98.8231631,
+    name: "Current Location",
+    lat: null as number | null,
+    lon: null as number | null,
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDate, setSelectedDate] = useState(() => new Date());
-  const { hours, loading, error, currentTemp } = useWeather(location.lat, location.lon, selectedDate); // Austin
+  const { hours, loading, error, currentTemp } = useWeather(location.lat, location.lon, selectedDate);
   console.log("error: ", error);
   useEffect(() => {
     (async () => {
@@ -24,7 +23,7 @@ export default function DayScreen() {
         ...prev,
         lat: loc.coords.latitude,
         lon: loc.coords.longitude,
-        name: prev.name, // we can update with reverse geocode later
+        name: "Current Location",
       }));
     })();
   }, []);

@@ -3,8 +3,8 @@ import { fetchHourlyWeather } from "@/services/weatherService";
 import { useEffect, useState } from "react";
 
 export function useWeather(
-  lat: number,
-  lon: number,
+  lat: number | null,
+  lon: number | null,
   date: Date = new Date()
 ) {
   const [hours, setHours] = useState<WeatherHour[]>([]);
@@ -15,6 +15,13 @@ export function useWeather(
   useEffect(() => {
     let cancelled = false;
     async function load() {
+      if (lat == null || lon == null) {
+        setHours([]);
+        setCurrentTemp(undefined);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         setError(null);

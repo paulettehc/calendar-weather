@@ -17,7 +17,9 @@ export async function fetchHourlyWeather(
   date: Date
 ): Promise<WeatherHour[]> {
   const dayStr = date.toISOString().split("T")[0];
-
+const tomorrow = new Date(Date.now() + 86400000)
+  .toISOString()
+  .slice(0,10)
   const params = new URLSearchParams({
     latitude: latitude.toString(),
     longitude: longitude.toString(),
@@ -26,7 +28,7 @@ export async function fetchHourlyWeather(
     windspeed_unit: "mph",
     timezone: "auto",
     start_date: dayStr,
-    end_date: dayStr,
+    end_date: tomorrow,
   });
 
   const res = await fetch(`${OPEN_METEO_URL}?${params.toString()}`);
